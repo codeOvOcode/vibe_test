@@ -25,3 +25,20 @@ replay_pid*
 
 # Maven
 target/
+
+# Node.js
+node_modules/
+package-lock.json
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled TypeScript output (generated from frontend/src/)
+src/main/resources/static/js/
+
