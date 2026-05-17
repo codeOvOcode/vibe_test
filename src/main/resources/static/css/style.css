@@ -1,3 +1,19 @@
+/*
+ * ============================================================
+ * 代码来源标注
+ * ============================================================
+ * AI工具: Sisyphus (DeepSeek-V4-Pro)
+ * AI生成比例: 85%
+ * AI生成部分: 基础布局样式（容器居中、卡片式section、
+ *             表格样式、按钮样式、响应式基础）
+ * 手动修改: 配色从默认蓝改为绿色主题（#4CAF50主色调）、
+ *           .category-group分类标题样式、
+ *           .loading和.no-result状态样式
+ * 修改原因: 适配选课场景——绿色主题符合教育管理系统调性，
+ *           分类分组样式增强视觉区分度
+ * 详见: AI提示词与代码标注.md → 提示词三
+ * ============================================================
+ */
 * {
     margin: 0;
     padding: 0;
@@ -38,6 +54,14 @@ section h2 {
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 2px solid #e8f5e9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.export-btn {
+    font-size: 13px;
+    padding: 6px 16px;
 }
 
 textarea {
@@ -62,6 +86,27 @@ textarea:focus {
     align-items: center;
     margin-top: 12px;
     gap: 12px;
+}
+
+.file-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.file-upload-row input[type="file"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.hint {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 8px;
 }
 
 button {

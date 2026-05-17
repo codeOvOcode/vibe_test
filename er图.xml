@@ -1,0 +1,70 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
+  <diagram id="enrollment-system-er" name="高校选课管理系统ER图">
+    <mxGraphModel dx="1213" dy="722" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="0" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="高校选课管理系统 ER 图（实体-菱形联系-无箭头）" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Microsoft YaHei;fontSize=22;fontStyle=1;fontColor=#0F172A;" parent="1" vertex="1">
+          <mxGeometry x="180" y="20" width="640" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="teachers" value="&lt;b&gt;教师 (Teachers)&lt;/b&gt;&lt;br&gt;—————————&lt;br&gt;PK: teacher_id&lt;br&gt;teacher_name&lt;br&gt;department&lt;br&gt;title&lt;br&gt;..." style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;fontSize=12;align=left;spacingLeft=10;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry y="97" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="students" value="&lt;b&gt;学生 (Students)&lt;/b&gt;&lt;br&gt;—————————&lt;br&gt;PK: student_id&lt;br&gt;student_name&lt;br&gt;department&lt;br&gt;grade&lt;br&gt;max_credits&lt;br&gt;..." style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;fontSize=12;align=left;spacingLeft=10;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="102" width="150" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="courses" value="&lt;b&gt;课程 (Courses)&lt;/b&gt;&lt;br&gt;——————————&lt;br&gt;PK: course_id&lt;br&gt;course_name&lt;br&gt;FK: teacher_id&lt;br&gt;credits&lt;br&gt;capacity&lt;br&gt;semester&lt;br&gt;..." style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;fontSize=12;align=left;spacingLeft=10;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="380" y="87" width="150" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="enrollments" value="&lt;b&gt;选课记录 (Enrollments)&lt;/b&gt;&lt;br&gt;——————————&lt;br&gt;PK, FK: student_id&lt;br&gt;PK, FK: course_id&lt;br&gt;enroll_time&lt;br&gt;status&lt;br&gt;score&lt;br&gt;..." style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;fontSize=12;align=left;spacingLeft=10;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="600" y="350" width="160" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="R_teaches" value="教授" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;fontSize=13;" parent="1" vertex="1">
+          <mxGeometry x="210" y="120" width="82" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="R_has_enrollment" value="选课" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;fontSize=13;" parent="1" vertex="1">
+          <mxGeometry x="639" y="250" width="82" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="R_for_course" value="课程" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;fontSize=13;" parent="1" vertex="1">
+          <mxGeometry x="414" y="378" width="82" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="ed1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="teachers" target="R_teaches" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="R_teaches" target="courses" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="courses" target="R_for_course" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="R_for_course" target="enrollments" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="students" target="R_has_enrollment" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="R_has_enrollment" target="enrollments" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1" value="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="190" y="110" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="N" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="278" y="117" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="453" y="316" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="N" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="376" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" value="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="690" y="215" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="l6" value="N" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="690" y="320" width="40" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

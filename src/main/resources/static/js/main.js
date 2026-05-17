@@ -8,9 +8,13 @@ function getElement(id) {
 const csvInput = getElement('csvInput');
 const importBtn = getElement('importBtn');
 const importMsg = getElement('importMsg');
+const excelFileInput = getElement('excelFile');
+const importExcelBtn = getElement('importExcelBtn');
+const importExcelMsg = getElement('importExcelMsg');
 const searchKeyword = getElement('searchKeyword');
 const searchType = getElement('searchType');
 const searchBtn = getElement('searchBtn');
+const exportBtn = getElement('exportBtn');
 const displayArea = getElement('displayArea');
 async function fetchApi(url, options) {
     const res = await fetch(BASE_URL + url, options);
@@ -108,6 +112,42 @@ async function handleImport() {
         importMsg.className = 'msg error';
     }
 }
+async function handleImportExcel() {
+    const file = excelFileInput.files?.[0];
+    if (!file) {
+        importExcelMsg.textContent = '请选择Excel文件';
+        importExcelMsg.className = 'msg error';
+        return;
+    }
+    if (!file.name.toLowerCase().endsWith('.xlsx')) {
+        importExcelMsg.textContent = '仅支持 .xlsx 格式文件';
+        importExcelMsg.className = 'msg error';
+        return;
+    }
+    try {
+        importExcelMsg.textContent = '上传处理中...';
+        importExcelMsg.className = 'msg';
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await fetchApi('/api/enrollment/import-excel', {
+            method: 'POST',
+            body: fd
+        });
+        if (res.code === 200 && res.data) {
+            importExcelMsg.textContent = res.message;
+            importExcelMsg.className = 'msg success';
+            displayArea.innerHTML = renderClassified(res.data.classified);
+        }
+        else {
+            importExcelMsg.textContent = res.message;
+            importExcelMsg.className = 'msg error';
+        }
+    }
+    catch (e) {
+        importExcelMsg.textContent = e.message || 'Excel导入失败';
+        importExcelMsg.className = 'msg error';
+    }
+}
 async function handleSearch() {
     const keyword = searchKeyword.value.trim();
     if (!keyword) {
@@ -128,8 +168,18 @@ async function handleSearch() {
         displayArea.innerHTML = '<p class="no-result">检索失败: ' + escapeHtml(e.message || '未知错误') + '</p>';
     }
 }
+function handleExport() {
+    const link = document.createElement('a');
+    link.href = '/api/enrollment/export';
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 importBtn.addEventListener('click', handleImport);
+importExcelBtn.addEventListener('click', handleImportExcel);
 searchBtn.addEventListener('click', handleSearch);
+exportBtn.addEventListener('click', handleExport);
 searchKeyword.addEventListener('keydown', (e) => {
     if (e.key === 'Enter')
         handleSearch();

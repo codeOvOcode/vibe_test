@@ -1,3 +1,18 @@
+<!--
+============================================================
+代码来源标注
+============================================================
+AI工具: Sisyphus (DeepSeek-V4-Pro)
+AI生成比例: 90%
+AI生成部分: HTML页面骨架、三段式布局（导入/检索/展示）、
+            CSS/JS引用
+手动修改: textarea行数8行（原6行）、placeholder补充完整CSV格式示例、
+          检索下拉框选项标签中文化
+修改原因: 优化页面交互——更大文本域方便批量输入，
+          中文Option标签提升用户体验
+详见: AI提示词与代码标注.md → 提示词三
+============================================================
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -11,7 +26,7 @@
         <h1>高校选课管理系统</h1>
 
         <section class="import-section">
-            <h2>数据批量导入</h2>
+            <h2>数据批量导入 (CSV)</h2>
             <textarea id="csvInput" rows="8" placeholder="请输入CSV格式选课数据，每行一条：
 S000001,C000001,Java程序设计,专业课
 S000002,C000003,计算机网络,公共课"></textarea>
@@ -19,6 +34,16 @@ S000002,C000003,计算机网络,公共课"></textarea>
                 <button id="importBtn">导入数据</button>
                 <span id="importMsg" class="msg"></span>
             </div>
+        </section>
+
+        <section class="import-section">
+            <h2>数据批量导入 (Excel)</h2>
+            <div class="file-upload-row">
+                <input type="file" id="excelFile" accept=".xlsx">
+                <button id="importExcelBtn">上传并导入</button>
+            </div>
+            <p class="hint">支持 .xlsx 格式，列顺序：学生ID、课程ID、课程名称、课程类型</p>
+            <span id="importExcelMsg" class="msg"></span>
         </section>
 
         <section class="search-section">
@@ -36,7 +61,10 @@ S000002,C000003,计算机网络,公共课"></textarea>
         </section>
 
         <section class="display-section">
-            <h2>数据展示</h2>
+            <h2>
+                数据展示
+                <button id="exportBtn" class="export-btn">导出Excel</button>
+            </h2>
             <div id="displayArea">
                 <p class="loading">加载中...</p>
             </div>

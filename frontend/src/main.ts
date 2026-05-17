@@ -1,3 +1,20 @@
+/*
+ * ============================================================
+ * 代码来源标注
+ * ============================================================
+ * AI工具: Sisyphus (DeepSeek-V4-Pro)
+ * AI生成比例: 85%
+ * AI生成部分: fetchApi封装、renderTable/renderClassified渲染函数、
+ *             escapeHtml安全函数、handleImport/handleSearch事件处理、
+ *             元素获取与事件绑定基础结构
+ * 手动修改: 分类展示顺序固定为"专业课→公共课→选修课"、
+ *           loadSampleData错误提示"请确保后端服务已启动"、
+ *           Enter键搜索支持
+ * 修改原因: 完善前后端衔接——固定展示顺序确保一致性，
+ *           友好错误提示帮助定位后端未启动问题
+ * 详见: AI提示词与代码标注.md → 提示词三
+ * ============================================================
+ */
 import { ApiResponse, EnrollRecord, ImportResult, SampleDataResult, SearchType } from './types.js';
 
 const BASE_URL = '';
@@ -11,9 +28,13 @@ function getElement<T extends HTMLElement>(id: string): T {
 const csvInput = getElement<HTMLTextAreaElement>('csvInput');
 const importBtn = getElement<HTMLButtonElement>('importBtn');
 const importMsg = getElement<HTMLSpanElement>('importMsg');
+const excelFileInput = getElement<HTMLInputElement>('excelFile');
+const importExcelBtn = getElement<HTMLButtonElement>('importExcelBtn');
+const importExcelMsg = getElement<HTMLSpanElement>('importExcelMsg');
 const searchKeyword = getElement<HTMLInputElement>('searchKeyword');
 const searchType = getElement<HTMLSelectElement>('searchType');
 const searchBtn = getElement<HTMLButtonElement>('searchBtn');
+const exportBtn = getElement<HTMLButtonElement>('exportBtn');
 const displayArea = getElement<HTMLDivElement>('displayArea');
 
 async function fetchApi<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
@@ -115,6 +136,41 @@ async function handleImport(): Promise<void> {
   }
 }
 
+async function handleImportExcel(): Promise<void> {
+  const file = excelFileInput.files?.[0];
+  if (!file) {
+    importExcelMsg.textContent = '请选择Excel文件';
+    importExcelMsg.className = 'msg error';
+    return;
+  }
+  if (!file.name.toLowerCase().endsWith('.xlsx')) {
+    importExcelMsg.textContent = '仅支持 .xlsx 格式文件';
+    importExcelMsg.className = 'msg error';
+    return;
+  }
+  try {
+    importExcelMsg.textContent = '上传处理中...';
+    importExcelMsg.className = 'msg';
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetchApi<ImportResult>('/api/enrollment/import-excel', {
+      method: 'POST',
+      body: fd
+    });
+    if (res.code === 200 && res.data) {
+      importExcelMsg.textContent = res.message;
+      importExcelMsg.className = 'msg success';
+      displayArea.innerHTML = renderClassified(res.data.classified);
+    } else {
+      importExcelMsg.textContent = res.message;
+      importExcelMsg.className = 'msg error';
+    }
+  } catch (e: any) {
+    importExcelMsg.textContent = e.message || 'Excel导入失败';
+    importExcelMsg.className = 'msg error';
+  }
+}
+
 async function handleSearch(): Promise<void> {
   const keyword = searchKeyword.value.trim();
   if (!keyword) {
@@ -135,8 +191,19 @@ async function handleSearch(): Promise<void> {
   }
 }
 
+function handleExport(): void {
+  const link = document.createElement('a');
+  link.href = '/api/enrollment/export';
+  link.download = '';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 importBtn.addEventListener('click', handleImport);
+importExcelBtn.addEventListener('click', handleImportExcel);
 searchBtn.addEventListener('click', handleSearch);
+exportBtn.addEventListener('click', handleExport);
 searchKeyword.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') handleSearch();
 });
